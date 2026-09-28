@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Matcha from '../components/Matcha.astro';
+---
+<Layout title="About me" active="about">
+  <section class="intro" aria-labelledby="intro-title">
+    <div class="intro-copy">
+      <p class="eyebrow">music, teaching & a few things in between</p>
+      <h1 id="intro-title">hello, i’m<br /><em>Jamily Lee!</em></h1>
+      <p class="hello-note">so glad you stopped by <span aria-hidden="true">♡</span></p>
+    </div>
+    <figure class="matcha"><Matcha /><figcaption>strawberry + matcha</figcaption></figure>
+  </section>
+  <section class="about-section" aria-labelledby="about-title">
+    <h2 id="about-title"><span>about me</span></h2>
+    <div class="prose">
+      <!-- Personalize the bracketed details before submitting. -->
+      <p>I’m Jamily, a music education student at [school]. I play [instrument], and I started making music when [how you got started]. Since then, I’ve been part of [ensembles, performances, or other musical experiences].</p>
+      <p>[A teacher or experience] first got me thinking about becoming a music teacher. I’ve had the chance to [describe any teaching, tutoring, or mentoring], and I’d love to [what you hope to do as an educator].</p>
+      <p>This is where I’m keeping my work for music education class. You’ll find my teaching philosophy, resume, and lesson plans in the tabs above. It’s a work in progress!</p>
+      <p class="signature">see you around,<br /><span>Jamily ♡</span></p>
+    </div>
+  </section>
+</Layout>

@@ -1,6 +1,6 @@
 # Jamily Lee — music education portfolio
 
-A small personal Astro site with gingham margins, a paper-like page, strawberry tabs, and a drawn strawberry matcha. Four pages, responsive navigation, no client-side JavaScript, no external fonts.
+A small personal Astro site with gingham margins, a paper-like page, and strawberry tabs. Four pages, responsive navigation, no client-side JavaScript, no external fonts.
 
 ## Start locally
 

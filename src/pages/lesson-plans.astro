@@ -3,7 +3,28 @@ import Layout from '../layouts/Layout.astro';
 ---
 <Layout title="Lesson Plans" active="lessons">
   <section class="page-heading"><h1>lesson plans</h1></section>
-  <section class="placeholder" aria-label="Lesson plans">
-    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}jamily-note.jpg`} alt="Jamily smiling in a conical hat" /></div>
+  <section class="lesson-playground">
+    <button class="lesson-button" type="button" id="lesson-button">book a lesson</button>
+    <audio id="lesson-audio" preload="auto" src="https://www.myinstants.com/media/sounds/asian-gong-music.mp3"></audio>
   </section>
 </Layout>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#lesson-button');
+  const audio = document.querySelector<HTMLAudioElement>('#lesson-audio');
+  button?.addEventListener('click', () => {
+    if (!audio) return;
+    audio.pause();
+    audio.currentTime = 0;
+    void audio.play();
+  });
+</script>
+
+<style>
+  .lesson-playground{min-height:300px;display:grid;place-items:center}
+  .lesson-button{border:1px solid #c7ccb5;border-radius:999px;background:#f5e9a9;padding:14px 24px;color:#743f3d;font:italic 17px Georgia,serif;cursor:pointer;box-shadow:2px 5px 0 #6a715c19;transition:transform .2s,box-shadow .2s}
+  .lesson-button:hover{transform:translateY(-2px) rotate(-2deg);box-shadow:3px 8px 0 #6a715c19}
+  .lesson-button:active{transform:translateY(1px) scale(.98)}
+  .lesson-button:focus-visible{outline:2px dashed #97514f;outline-offset:5px}
+  @media(prefers-reduced-motion:reduce){.lesson-button{transition:none}}
+</style>

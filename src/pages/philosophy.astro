@@ -1,7 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Philosophy of Music Education" active="philosophy">
-  <section class="page-heading"><h1>philosophy of music education</h1></section>
-  <section class="placeholder"><p>My philosophy is to eat good food and spend money.</p></section>
+<Layout title="My philosophy is to eat good food and spend money." active="philosophy">
+  <section class="page-heading"><h1>My philosophy is to eat good food and spend money.</h1></section>
+  <section class="photo-gallery" aria-label="A few favorite food moments">
+    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}jamily-note.jpg`} alt="Jamily smiling in a conical hat" /></div>
+    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}pizza-note.webp`} alt="Jamily having a slice of pizza" /></div>
+    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}grocery-note.webp`} alt="Jamily carrying groceries in a market" /></div>
+    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}melon-note.webp`} alt="Jamily eating a slice of melon" /></div>
+  </section>
 </Layout>
+
+<style>
+  .page-heading h1{max-width:650px;font-size:clamp(30px,5vw,40px)}
+  .photo-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 14px;padding:0 0 24px}
+  .photo-gallery .photo-note{width:min(220px,94%);margin:16px auto 24px}
+  .photo-gallery .photo-note:nth-child(2){transform:rotate(2deg)}
+  .photo-gallery .photo-note:nth-child(3){transform:rotate(-1deg)}
+  .photo-gallery .photo-note:nth-child(4){transform:rotate(2.5deg)}
+  @media(max-width:560px){.photo-gallery{grid-template-columns:1fr;gap:0}.photo-gallery .photo-note{width:min(220px,88%);margin-bottom:22px}}
+</style>

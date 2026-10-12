@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Matcha maker" active="about">
+  <section class="maker-page" aria-labelledby="maker-title">
+    <a class="back-link" href={import.meta.env.BASE_URL}>← back to website</a>
+    <header class="maker-heading">
+      <h1 id="maker-title">I likuh to durinkuh estrrawburry meelkuh</h1>
+    </header>
+
+    <div class="maker-stage" id="maker" data-pouring="">
+      <svg class="pour-streams" viewBox="0 0 640 460" preserveAspectRatio="none" aria-hidden="true">
+        <path class="stream milk" d="M80 140 C90 195 235 205 282 258" />
+        <path class="stream matcha" d="M240 140 C245 194 280 215 300 258" />
+        <path class="stream strawberry" d="M400 140 C395 194 360 215 340 258" />
+        <path class="stream foam" d="M560 140 C550 195 405 205 358 258" />
+      </svg>
+
+      <div class="dispensers" aria-label="Choose an ingredient to pour">
+        <button class="ingredient milk" type="button" data-ingredient="milk" aria-label="Hold to pour milk" aria-pressed="false">
+          <span class="hanger"></span><span class="jar"><span class="jar-liquid"></span><span class="jar-neck"></span></span>
+          <span class="ingredient-name">milk</span>
+        </button>
+        <button class="ingredient matcha" type="button" data-ingredient="matcha" aria-label="Hold to pour matcha powder" aria-pressed="false">
+          <span class="hanger"></span><span class="jar"><span class="jar-liquid"></span><span class="jar-neck"></span></span>
+          <span class="ingredient-name">matcha</span>
+        </button>
+        <button class="ingredient strawberry" type="button" data-ingredient="strawberry" aria-label="Hold to pour strawberry syrup" aria-pressed="false">
+          <span class="hanger"></span><span class="jar"><span class="jar-liquid"></span><span class="jar-neck"></span></span>
+          <span class="ingredient-name">strawberry</span>
+        </button>
+        <button class="ingredient foam" type="button" data-ingredient="foam" aria-label="Hold to pour cheese foam" aria-pressed="false">
+          <span class="hanger"></span><span class="jar"><span class="jar-liquid"></span><span class="jar-neck"></span></span>
+          <span class="ingredient-name">cheese foam</span>
+        </button>
+      </div>
+
+      <div class="glass" aria-label="Your matcha glass">
+        <svg class="cup-liquid" viewBox="0 0 200 220" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <clipPath id="cup-interior"><path d="M23 28H177L158 189Q156 199 100 205Q44 199 42 189Z" /></clipPath>
+            <linearGradient id="strawberry-syrup" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a52839"/><stop offset=".45" stop-color="#861426"/><stop offset="1" stop-color="#640b1b"/></linearGradient>
+            <linearGradient id="cheese-foam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3dc"/><stop offset="1" stop-color="#e9d5b8"/></linearGradient>
+          </defs>
+          <g class="liquid-layers" clip-path="url(#cup-interior)"></g>
+        </svg>
+        <svg class="glass-outline" viewBox="0 0 200 220" aria-hidden="true">
+          <path d="M17 23Q17 19 22 20H178Q183 19 183 23L163 190Q160 210 100 214Q40 210 37 190Z" fill="#fffdf82b" stroke="#829078" stroke-width="3" stroke-linejoin="round" />
+          <path d="M17 24q83 10 166 0" fill="none" stroke="#829078" stroke-width="4" stroke-linecap="round" />
+          <path d="m34 45 17 132M166 45l-17 132" fill="none" stroke="#fffdf9b8" stroke-width="4" stroke-linecap="round" />
+          <path d="M43 190q57 29 114 0" fill="none" stroke="#82907888" stroke-width="2" />
+        </svg>
+      </div>
+      <p class="cup-note" id="cup-note" aria-live="polite"></p>
+    </div>
+
+    <div class="maker-actions">
+      <button class="reset-button" type="button" id="reset-cup">start over</button>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const stage = document.querySelector<HTMLElement>('#maker');
+  const layers = document.querySelector<SVGGElement>('.liquid-layers');
+  const note = document.querySelector<HTMLElement>('#cup-note');
+  const reset = document.querySelector<HTMLButtonElement>('#reset-cup');
+  const ingredients = ['milk', 'matcha', 'strawberry', 'foam'] as const;
+  const colors: Record<(typeof ingredients)[number], string> = {
+    milk: '#f4eee0', matcha: '#263b1f', strawberry: '#861426', foam: '#f8e7d2',
+  };
+  const rates: Record<(typeof ingredients)[number], number> = {
+    milk: 9, matcha: 12, strawberry: 7, foam: 5,
+  };
+  const amounts = { milk: 0, matcha: 0, strawberry: 0, foam: 0 };
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.ingredient')];
+  let order: (typeof ingredients)[number][] = [];
+  let pouring: (typeof ingredients)[number] | null = null;
+  let pourTimer = 0;
+  let total = 0;
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  function milkColor() {
+    const strength = Math.min(amounts.matcha / 100, 1);
+    const pale = [244, 238, 224];
+    const green = [38, 59, 31];
+    const rgb = pale.map((start, i) => Math.round(start + (green[i] - start) * strength));
+    return `rgb(${rgb.join(' ')})`;
+  }
+
+  function drawLayers() {
+    if (!layers) return;
+    let bottom = 0;
+    const layerOrder: (typeof ingredients)[number][] = order.filter((name) => name !== 'matcha' && name !== 'foam' && amounts[name] > 0);
+    if (amounts.foam > 0) layerOrder.push('foam');
+    layers.replaceChildren(...layerOrder.map((name) => {
+      const layer = document.createElementNS(svgNS, 'rect');
+      layer.setAttribute('class', `liquid-layer ${name}`);
+      layer.setAttribute('x', '0');
+      layer.setAttribute('width', '200');
+      layer.setAttribute('height', `${amounts[name] * 1.77}`);
+      layer.setAttribute('y', `${205 - (bottom + amounts[name]) * 1.77}`);
+      layer.setAttribute('fill', name === 'milk' ? milkColor() : name === 'strawberry' ? 'url(#strawberry-syrup)' : 'url(#cheese-foam)');
+      bottom += amounts[name];
+      return layer;
+    }));
+    const milkLayer = layers.querySelector('.liquid-layer.milk');
+    milkLayer?.setAttribute('fill', milkColor());
+    if (note) note.textContent = total ? `${Math.round(total)}% full` : '';
+  }
+
+  function stopPouring() {
+    if (!pouring) return;
+    window.clearInterval(pourTimer);
+    buttons.forEach((button) => button.setAttribute('aria-pressed', 'false'));
+    if (stage) stage.dataset.pouring = '';
+    pouring = null;
+  }
+
+  function startPouring(name: (typeof ingredients)[number], button: HTMLButtonElement) {
+    if ((name !== 'matcha' && total >= 100) || (name === 'matcha' && amounts.matcha >= 100) || pouring) return;
+    pouring = name;
+    if (name !== 'matcha' && amounts[name] === 0 && !order.includes(name)) order.push(name);
+    stage?.setAttribute('data-pouring', name);
+    button.setAttribute('aria-pressed', 'true');
+    pourTimer = window.setInterval(() => {
+      if (name === 'matcha') {
+        amounts.matcha = Math.min(100, amounts.matcha + rates[name] * 0.05);
+      } else {
+        const added = Math.min(rates[name] * 0.05, 100 - total);
+        amounts[name] += added;
+        total += added;
+      }
+      drawLayers();
+      if ((name === 'matcha' && amounts.matcha >= 100) || (name !== 'matcha' && total >= 100)) stopPouring();
+    }, 50);
+  }
+
+  buttons.forEach((button) => {
+    const name = button.dataset.ingredient as (typeof ingredients)[number];
+    button.addEventListener('pointerdown', (event) => {
+      event.preventDefault();
+      button.setPointerCapture(event.pointerId);
+      startPouring(name, button);
+    });
+    button.addEventListener('pointerup', stopPouring);
+    button.addEventListener('pointercancel', stopPouring);
+    button.addEventListener('lostpointercapture', stopPouring);
+    button.addEventListener('keydown', (event) => {
+      if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+        startPouring(name, button);
+      }
+    });
+    button.addEventListener('keyup', (event) => {
+      if (event.key === ' ' || event.key === 'Enter') stopPouring();
+    });
+  });
+
+  reset?.addEventListener('click', () => {
+    stopPouring();
+    ingredients.forEach((name) => { amounts[name] = 0; });
+    order = [];
+    total = 0;
+    drawLayers();
+  });
+  window.addEventListener('pointerup', stopPouring);
+  window.addEventListener('blur', stopPouring);
+</script>
+
+<style>
+  .maker-page{padding:28px 0 44px}
+  .back-link{font:11px "Courier New",monospace;text-decoration:none;color:var(--muted)}
+  .back-link:hover{text-decoration:underline;text-underline-offset:4px}
+  .maker-heading{text-align:center;padding:21px 0 4px}
+  .maker-heading h1{font:italic 34px/1.12 Georgia,serif;color:var(--berry);margin:0 auto 9px;max-width:610px}
+  .maker-heading h1 em{font-weight:400;color:#89966c}
+  .maker-stage{position:relative;width:min(100%,640px);height:460px;margin:4px auto 0;isolation:isolate}
+  .pour-streams{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible}
+  .stream{fill:none;stroke-linecap:round;stroke-dasharray:8 12;stroke-dashoffset:0;opacity:0;animation:stream-flow .35s linear infinite}
+  .stream.milk{stroke:#f4eee0;stroke-width:9}.stream.matcha{stroke:#91a36b;stroke-width:5;stroke-dasharray:2 10}.stream.strawberry{stroke:#861426;stroke-width:9;stroke-dasharray:18 5}.stream.foam{stroke:#f8e7d2;stroke-width:13;stroke-dasharray:15 7}
+  #maker[data-pouring="milk"] .stream.milk,#maker[data-pouring="matcha"] .stream.matcha,#maker[data-pouring="strawberry"] .stream.strawberry,#maker[data-pouring="foam"] .stream.foam{opacity:1}
+  @keyframes stream-flow{to{stroke-dashoffset:-20}}
+  .dispensers{position:absolute;z-index:2;top:6px;left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr)}
+  .ingredient{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;color:var(--ink);cursor:pointer;padding:0 3px 10px;font:italic 13px Georgia,serif;touch-action:none;-webkit-tap-highlight-color:transparent}
+  .ingredient:focus-visible,.reset-button:focus-visible,.back-link:focus-visible{outline:2px dashed var(--berry);outline-offset:4px}
+  .hanger{height:16px;width:1px;background:#bfc4ac;display:block}
+  .jar{position:relative;width:58px;height:76px;border:1px solid #b9bda7;border-radius:15px 15px 11px 11px;background:#fffaf0ed;box-shadow:2px 4px 0 #5d624115;display:block;transition:transform .18s,box-shadow .18s;overflow:visible}
+  .jar:before{content:"";position:absolute;top:8px;left:8px;width:7px;height:43px;border-radius:10px;background:#fffdf8aa}
+  .jar-liquid{position:absolute;left:5px;right:5px;bottom:6px;height:42px;border-radius:5px 5px 8px 8px;background:#f4eee0;opacity:.95;clip-path:inset(0 round 5px)}
+  .jar-neck{position:absolute;bottom:-8px;left:21px;width:14px;height:10px;background:#fffaf0;border:1px solid #b9bda7;border-top:0;border-radius:0 0 4px 4px}
+  .ingredient-name{white-space:nowrap}
+  .ingredient.matcha .jar-liquid{background:#a8b77d}.ingredient.strawberry .jar-liquid{background:#861426}.ingredient.foam .jar-liquid{background:#f1dfc8}
+  .ingredient:hover .jar,.ingredient[aria-pressed="true"] .jar{transform:translateY(4px) rotate(-3deg);box-shadow:3px 7px 0 #5d62411c}
+  .ingredient[aria-pressed="true"] .jar{animation:jar-shake .24s ease-in-out infinite alternate}
+  @keyframes jar-shake{to{transform:translateY(5px) rotate(3deg)}}
+  .glass{position:absolute;z-index:1;top:244px;left:50%;transform:translateX(-50%);width:174px;height:192px}
+  .cup-liquid{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .liquid-layers{position:absolute;inset:0}
+  :global(.liquid-layer){opacity:.96}
+  .glass-outline{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .cup-note{position:absolute;top:432px;left:0;right:0;text-align:center;font:italic 13px Georgia,serif;color:var(--berry);margin:0}
+  .maker-actions{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:6px}
+  .reset-button{border:1px solid #cbd0b8;border-radius:99px;background:#fffaf0;padding:8px 14px;color:var(--berry);font:italic 12px Georgia,serif;cursor:pointer}
+  .reset-button:hover{background:#f0d3cb}
+  @media(max-width:520px){.maker-page{padding-top:22px}.maker-heading h1{font-size:28px}.maker-stage{height:420px;margin-top:6px}.dispensers{top:6px}.ingredient{font-size:11px;gap:7px}.jar{width:48px;height:69px}.jar-neck{left:16px}.jar-liquid{height:38px}.glass{top:232px;width:150px;height:171px}.cup-note{top:400px}.maker-actions{margin-top:0;gap:10px}}
+  @media(prefers-reduced-motion:reduce){.stream,.ingredient[aria-pressed="true"] .jar{animation:none}}
+</style>

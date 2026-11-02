@@ -1,0 +1,16 @@
+---
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+const hasPhoto = existsSync(resolve(process.cwd(), 'public/gluck-group.jpg'));
+const base = import.meta.env.BASE_URL;
+---
+<article class="gluck-feature">
+  <div class="gluck-art">
+    {hasPhoto ? <img src={`${base}gluck-group.jpg`} alt="Jamily with the UCLA Gluck LAN Trio" loading="lazy" /> : <div class="gluck-artwork" aria-label="LAN Trio feature card">
+      <span class="gluck-topline">UCLA · GLUCK FELLOWS</span>
+      <span class="gluck-big">LAN<br/><i>Trio</i></span>
+      <span class="gluck-bottomline">CLARINET <b>·</b> VIOLIN <b>·</b> CELLO</span>
+    </div>}
+  </div>
+  <div class="gluck-info"><p class="overline">CHAMBER MUSIC</p><h3>The LAN Trio</h3><p>Jamily performs with the UCLA Gluck Fellows clarinet, violin, and cello trio.</p><a href="https://schoolofmusic.ucla.edu/ensembles/gluck-clarinet-violin-cello-trio/" target="_blank" rel="noopener noreferrer" class="text-link">Meet the trio <span aria-hidden="true">↗</span></a></div>
+</article>

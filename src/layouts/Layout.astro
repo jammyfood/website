@@ -1,38 +1,51 @@
 ---
 import '../styles/global.css';
-import Strawberry from '../components/Strawberry.astro';
-import SeasonalFlowers from '../components/SeasonalFlowers.astro';
-const { title, active = 'about' } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const link = (path = '') => `${base}/${path}`;
+const { title = 'About me', active = 'about', description = 'Jamily Lee — violin and music education.' } = Astro.props;
+const base = import.meta.env.BASE_URL;
 const nav = [
-  { key: 'about', label: 'About me', path: '' },
-  { key: 'philosophy', label: 'Philosophy', path: 'philosophy/' },
-  { key: 'resume', label: 'Resume', path: 'resume/' },
-  { key: 'lessons', label: 'Lesson plans', path: 'lesson-plans/' },
+  { label: 'About me', href: '', key: 'about' },
+  { label: 'Philosophy', href: 'philosophy/', key: 'philosophy' },
+  { label: 'Resume', href: 'resume/', key: 'resume' },
+  { label: 'Lesson plans', href: 'lesson-plans/', key: 'lessons' },
 ];
 ---
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Jamily Lee’s music education portfolio. A place for musical experiences, teaching ideas, and reflections." />
-    <title>{title} · Jamily Lee</title>
-    <link rel="icon" type="image/svg+xml" href={link('favicon.svg')} />
+    <meta name="theme-color" content="#fcfcfc" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} | Jamily Lee`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://jamilylee.com/jamily-portrait-small.webp" />
+    <title>{title} | Jamily Lee</title>
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
-    <SeasonalFlowers />
-    <div class="shell">
-      <header class="header">
-        <a class="wordmark" href={link()} aria-label="Jamily Lee, home"><span class="brand-berry"><Strawberry /></span> jamily’s little website</a>
-        <nav aria-label="Main navigation">
-          {nav.map(item => <a href={link(item.path)} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <a href={base} class="wordmark" aria-label="Jamily Lee, About me">Jamily Lee</a>
+        <nav class="primary-nav" aria-label="Main navigation">
+          {nav.map(item => <a href={`${base}${item.href}`} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
         </nav>
       </header>
       <main id="main"><slot /></main>
-      <footer><span>Jamily Lee’s music education portfolio</span></footer>
+      <footer class="site-footer">
+        <div class="footer-links" aria-label="Contact links">
+          <a href="mailto:jamily.lee.violin@gmail.com">Email</a>
+          <a href="https://www.instagram.com/lifeofjamily/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.youtube.com/@lifeofjamily" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+        <div class="footer-extras">
+          <a class="tiny-matcha" href={`${base}old/matcha-maker/`} aria-label="Make a strawberry matcha" title="Make a strawberry matcha"><img src={`${base}strawberry-matcha.png`} alt="" loading="lazy" /></a>
+          <a class="old-link" href={`${base}old/`}>Old site</a>
+        </div>
+      </footer>
     </div>
   </body>
 </html>

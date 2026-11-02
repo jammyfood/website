@@ -1,7 +1,221 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const ensembles = [
+  {
+    title: 'California Young Artists Symphony',
+    dates: 'October 2025–present',
+    roles: ['Principal second violin'],
+    details: [
+      'Collaborated with Conejo Valley Choral Society; performed Bach’s Mass in B minor',
+      'Two concert cycles per year featuring Don Juan, Shostakovich 10, and Prokofiev 5',
+    ],
+  },
+  {
+    title: 'UCLA Philharmonia',
+    dates: 'September 2024–present',
+    roles: ['Concertmaster', 'Assistant concertmaster', 'Principal second violin', 'Rotational seating'],
+    details: [
+      'Performed Mahler Symphony No. 6, Prokofiev Symphony No. 5, and Sibelius Symphony No. 2',
+      'Performed at Walt Disney Hall in March 2025',
+    ],
+  },
+  {
+    title: 'UCLA Chamber Music',
+    details: [
+      'Quarterly performances featuring Jean Sibelius’s “Voces Intimae,” Brahms Sextet No. 2, Schubert Quartettsatz, and Brahms Piano Quintet in F minor',
+    ],
+  },
+  {
+    title: 'Jacob Collier Audience Orchestra',
+    dates: 'October 2025',
+    details: [
+      'One of 62 musicians selected to play for Jacob Collier under the baton of Suzie Collier',
+      'Performed at Davies Symphony Hall in San Francisco',
+    ],
+  },
+  {
+    title: 'Gluck Fellowship Duet & Trio',
+    dates: 'September 2024–2025 · September 2026–present',
+    details: ['Scholarship program with ten performances and a community event annually'],
+  },
+  {
+    title: 'San Francisco Symphony Youth Orchestra',
+    dates: 'September 2021–2024',
+    details: [
+      'Five concerts per year, including Mothership with Mason Bates and the Christmas concert narrated by Tom Kenny',
+      'Guest artists: Ray Chen, Gustavo Dudamel, and Esa-Pekka Salonen',
+    ],
+  },
+  {
+    title: 'Church Worship Team',
+    dates: 'October 2019–present',
+    roles: ['Keyboardist & violinist'],
+    details: [
+      'Improvise contemporary Christian music',
+      'Worked with Emmy Rose from Bethel Music',
+    ],
+  },
+];
+
+const festivals = [
+  {
+    title: 'Chautauqua Institution Festival',
+    dates: 'June–August 2025 · June–August 2026',
+    roles: ['Rotational seating; concertmaster in 2025'],
+    details: [
+      'Seven-week music program with orchestra, chamber music, and private lessons',
+      'Performed at the Chautauqua Amphitheater with ballet students, opera students, the Chautauqua Symphony Orchestra, and the Buffalo Philharmonic Chorus',
+      'Studied privately with Almita Vamos and Nurit Pacht',
+    ],
+  },
+  {
+    title: 'Round Top Festival Institute',
+    dates: 'June–July 2023',
+    details: [
+      'Six-week music program with orchestra, chamber music, and masterclasses',
+      'Performed in eight orchestral concerts; concertmaster for the children’s program',
+      'Private lessons with Christiano Rodrigues, Regis Pasquier, and Chen Zhou',
+      'Masterclass with Regis Pasquier',
+    ],
+  },
+  {
+    title: 'Taipei Music Academy and Festival',
+    dates: 'August 2022',
+    details: [
+      'Two-week program consisting of a chamber festival and orchestra tour with world-class musicians and faculty, including principals of the New York Philharmonic',
+      'Toured Taiwan’s three biggest concert venues under Maestro Kent Nagano',
+      'Studied with Qian Qian Li, Frank Huang, and Cho-Liang Lin',
+      'Participated in an orchestra mock audition',
+    ],
+  },
+  {
+    title: 'Sounding Point Academy — The Colburn School',
+    dates: 'June 2022',
+    details: [
+      'Two-week violin camp founded by Robert Lipsett and Fabiola Kim',
+      'Attended excerpt, violin history, and masterclasses alongside Colburn students and guest artist Christian Li',
+      'Studied with Fabiola Kim and Aubree Oliverson',
+    ],
+  },
+];
+
+const teaching = [
+  {
+    title: 'Elemental Music',
+    dates: 'October 2025–June 2026',
+    roles: ['Teaching Fellow'],
+    details: [
+      'Attended weekly rehearsals to assist with the string orchestra for third- to fifth-grade students',
+      'Received mentorship in string pedagogy and student management',
+    ],
+  },
+  {
+    title: 'Private Lessons Teacher',
+    dates: 'November 2021–present',
+    details: [
+      'Teach beginner and intermediate students violin and piano',
+      'Help younger students with note reading, basic rhythms, singing notes, and how to hold the violin and bow',
+      'Teach intermediate students intonation, clarity, articulation, and attention to detail',
+    ],
+  },
+  {
+    title: 'School’s String Orchestra',
+    dates: 'August–December 2023',
+    roles: ['Teacher’s Assistant'],
+    details: [
+      'Conducted and taught the string orchestra, led warm-up exercises, and helped students with intonation, dynamics, section balance, and musical interpretation',
+    ],
+  },
+];
 ---
-<Layout title="Resume" active="resume">
-  <section class="page-heading"><h1>resume</h1></section>
-  <section class="placeholder"><p>I’m 4′ 11¾″.</p></section>
+<Layout title="Resume" active="resume" description="YungChieh (Jamily) Lee — violin performance, education, ensembles, and teaching experience.">
+  <div class="resume-page">
+    <header class="resume-intro">
+      <h1>YungChieh <span>(Jamily)</span> Lee</h1>
+      <p class="resume-subtitle">Violin performance</p>
+      <div class="resume-contact">
+        <a href="tel:+16697705943">(669) 770-5943</a>
+        <span class="contact-dot" aria-hidden="true"></span>
+        <a href="mailto:jamily.lee.violin@gmail.com">jamily.lee.violin@gmail.com</a>
+      </div>
+    </header>
+
+    <section class="resume-section" aria-labelledby="resume-education">
+      <h2 id="resume-education">Education</h2>
+      <div class="resume-section-content">
+        <article class="resume-item">
+          <div class="resume-item-heading"><h3>UCLA</h3><span class="resume-date">Class of 2028</span></div>
+          <p class="resume-summary">Violin Performance BM &amp; Music Education BA</p>
+        </article>
+        <article class="resume-item">
+          <div class="resume-item-heading"><h3>The King’s Academy</h3><span class="resume-date">Class of 2024</span></div>
+          <p class="resume-summary">High school diploma</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-ensembles">
+      <h2 id="resume-ensembles">Ensembles</h2>
+      <div class="resume-section-content">
+        {ensembles.map(item => <article class="resume-item">
+          <div class="resume-item-heading"><h3>{item.title}</h3>{item.dates && <span class="resume-date">{item.dates}</span>}</div>
+          {item.roles && <p class="resume-roles">{item.roles.join(' · ')}</p>}
+          <ul>{item.details.map(detail => <li>{detail}</li>)}</ul>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-festivals">
+      <h2 id="resume-festivals">Summer camps &amp; festivals</h2>
+      <div class="resume-section-content">
+        {festivals.map(item => <article class="resume-item">
+          <div class="resume-item-heading"><h3>{item.title}</h3><span class="resume-date">{item.dates}</span></div>
+          {item.roles && <p class="resume-roles">{item.roles.join(' · ')}</p>}
+          <ul>{item.details.map(detail => <li>{detail}</li>)}</ul>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-teachers">
+      <h2 id="resume-teachers">Teachers &amp; masterclasses</h2>
+      <div class="resume-section-content resume-teacher-columns">
+        <div>
+          <h3 class="resume-small-heading">Private lessons</h3>
+          <div class="resume-teacher"><span>Varty Manouelian &amp; Movses Pogossian</span><span class="resume-date">September 2024–present</span></div>
+          <div class="resume-teacher"><span>David Chernyavsky</span><span class="resume-date">March 2021–July 2024</span></div>
+          <div class="resume-teacher"><span>Felix Kuo</span><span class="resume-date">March 2020–March 2021</span></div>
+        </div>
+        <div>
+          <h3 class="resume-small-heading">Masterclasses</h3>
+          <p class="resume-masterclasses">Regis Pasquier<br />Midori<br />Richard Lin<br />Martin Beaver</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-awards">
+      <h2 id="resume-awards">Competitions &amp; awards</h2>
+      <div class="resume-section-content">
+        <article class="resume-item">
+          <div class="resume-item-heading"><h3>U.S. Open Music Competition</h3><span class="resume-date">February 2023</span></div>
+          <p class="resume-summary">Gold medalist in the final round</p>
+        </article>
+        <article class="resume-item">
+          <div class="resume-item-heading"><h3>Golden Classical Music Awards International Competition</h3><span class="resume-date">December 2022</span></div>
+          <p class="resume-summary">First prize</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="resume-work">
+      <h2 id="resume-work">Work</h2>
+      <div class="resume-section-content">
+        {teaching.map(item => <article class="resume-item">
+          <div class="resume-item-heading"><h3>{item.title}</h3><span class="resume-date">{item.dates}</span></div>
+          {item.roles && <p class="resume-roles">{item.roles.join(' · ')}</p>}
+          <ul>{item.details.map(detail => <li>{detail}</li>)}</ul>
+        </article>)}
+      </div>
+    </section>
+  </div>
 </Layout>

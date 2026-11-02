@@ -1,22 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="My philosophy is to eat good food and spend money." active="philosophy">
-  <section class="page-heading"><h1>My philosophy is to eat good food and spend money.</h1></section>
-  <section class="photo-gallery" aria-label="A few favorite food moments">
-    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}jamily-note.jpg`} alt="Jamily smiling in a conical hat" /></div>
-    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}pizza-note.webp`} alt="Jamily having a slice of pizza" /></div>
-    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}grocery-note.webp`} alt="Jamily carrying groceries in a market" /></div>
-    <div class="photo-note"><img src={`${import.meta.env.BASE_URL}melon-note.webp`} alt="Jamily eating a slice of melon" /></div>
+<Layout title="Teaching Philosophy" active="philosophy">
+  <section class="simple-page philosophy-page">
+    <h1>Teaching Philosophy</h1>
+    <div class="philosophy-copy">
+      <p>I believe that music is for everyone. Musical abilities can be nurtured through early experiences and opportunities to listen to and engage with music. Although musical experiences are especially valuable for young children, music is not limited to those who begin learning at an early age or demonstrate exceptional talent. People of all ages can learn an instrument, develop their musical abilities, and find enjoyment in making music. As an educator, I want to create a supportive environment where students feel that music is accessible to them, regardless of their age, background, or skill level. We never stop learning in music, as musical development continues throughout life (Gooding &amp; Standley, 2011).</p>
+      <p>Technical skills are an essential foundation for becoming a strong musician, especially for students who hope to pursue music professionally. Rhythm and intonation are two important foundations of musical technique, but they should not become the only goals of music education. Music also requires creativity, interpretation, and personal expression. Without these elements, the technically curated music would not be music. My goal is to help students develop both technical confidence and the ability to express themselves through music. I want my students not only to learn how to play music, but also to discover how to communicate emotions and ideas through music that words cannot express (Meissner, 2021).</p>
+    </div>
   </section>
 </Layout>
-
-<style>
-  .page-heading h1{max-width:650px;font-size:clamp(30px,5vw,40px)}
-  .photo-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 14px;padding:0 0 24px}
-  .photo-gallery .photo-note{width:min(220px,94%);margin:16px auto 24px}
-  .photo-gallery .photo-note:nth-child(2){transform:rotate(2deg)}
-  .photo-gallery .photo-note:nth-child(3){transform:rotate(-1deg)}
-  .photo-gallery .photo-note:nth-child(4){transform:rotate(2.5deg)}
-  @media(max-width:560px){.photo-gallery{grid-template-columns:1fr;gap:0}.photo-gallery .photo-note{width:min(220px,88%);margin-bottom:22px}}
-</style>

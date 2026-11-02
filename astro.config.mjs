@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// The Pages workflow supplies these automatically for any repository name.
+// Custom-domain GitHub Pages site; every page is served from the root of jamilylee.com.
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://jammyfood.github.io',
-  base: process.env.BASE_PATH || '/',
+  site: 'https://jamilylee.com',
+  base: '/',
   output: 'static',
   trailingSlash: 'always',
 });

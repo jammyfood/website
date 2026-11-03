@@ -1,25 +1,22 @@
 # Jamily Lee — Minimal website
 
-A four-tab Astro site: **About me**, **Philosophy**, **Resume**, and **Lesson plans**. The previous site remains under `/old/`.
+Four-tab Astro portfolio: **About me**, **Philosophy**, **Resume**, and **Lesson plans**, with the original site preserved under `/old/`.
 
-## Latest revision
+## Latest changes
 
-- Updated the Elemental Music Teaching Fellow date to **October 2025–June 2026**.
-- Reduced the desktop header to a compact 52px line and the footer to a 47px line; both scale down appropriately on mobile.
-- Replaced oversized serif headings and decorative kicker labels with a restrained sans-serif type scale, tighter paragraph spacing, and fewer rules.
-- Preserved the existing resume sections and two-column format. The About me biography and Teaching Philosophy wording remain unchanged.
-- Kept both performance videos, contact links, the small strawberry-matcha footer icon, and the archived `/old/` site.
+- Removed the phone number and its telephone link from the resume. The public contact method is email, with Instagram and YouTube in the footer.
+- Added two fully linked academic references below the Teaching Philosophy, with restrained formatting and hanging indents.
+- Kept the entire original portrait visible (`object-fit: contain`, natural aspect ratio), sized at up to 280px on desktop and up to 224px on phones. It stacks above the biography on smaller screens.
+- Preserved the previous resume layout, including the corrected Elemental Music date of October 2025–June 2026, the four-page navigation, matcha accent, and archived site at `/old/`.
 
 ## Update an existing checkout
 
-In your website project directory:
+In your project directory:
 
 ```bash
-unzip -o ~/Downloads/jamily-lee-minimal-refined.zip -d .
+unzip -o ~/Downloads/jamily-lee-contact-references-portrait.zip -d .
 npm install
 npm run dev
 ```
 
-To deploy, push the updated source to the repository using the included GitHub Pages workflow. The `astro.config.mjs` is set up for `jamilylee.com`.
-
-Requires Node.js 22.12 or later. The archive has been structurally checked, but a full Astro build was not available in the packaging environment due to dependency-installation timeouts.
+The archive overwrites matching files but does not delete unrelated files from the existing directory. Requires Node.js 22.12 or later. To publish changes, use your repository's GitHub Pages deployment workflow.
